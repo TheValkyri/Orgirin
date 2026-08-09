@@ -50,9 +50,9 @@ export function Waveform({
         {Array.from({ length: bars }, (_, i) => (
           <span
             key={i}
-            className="w-full rounded-full bg-signal transition-[height] duration-150"
+            className="w-full rounded-full bg-signal"
             style={{
-              height: `${20 + ((i * 7) % 60)}%`,
+              height: active ? undefined : `${20 + ((i * 7) % 60)}%`,
               opacity: active ? 1 : 0.35,
             }}
           />

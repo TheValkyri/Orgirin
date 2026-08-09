@@ -145,7 +145,10 @@ export function TaskQueue({
         <div className="flex-1 space-y-3 overflow-y-auto pr-1">
           {tasks.map((t) => {
             const running =
-              t.status === "DOWNLOADING" || t.status === "MERGING";
+              t.status === "DOWNLOADING" ||
+              t.status === "MERGING" ||
+              t.status === "QUEUED" ||
+              t.status === "FETCHING_INFO";
             return (
               <article
                 key={t.taskId}
