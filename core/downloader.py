@@ -235,8 +235,6 @@ def _apply_time_range_and_subs(
         else:
             ydl_opts["subtitleslangs"] = [sub_lang]
         ydl_opts["subtitlesformat"] = "srt/vtt/best"
-        if embed_sub:
-            ydl_opts["embedsubtitles"] = True
 
 
 def vtt_or_srt_to_styled_ass(sub_content: str, play_res_x: int = 1920, play_res_y: int = 1080) -> str:
@@ -336,29 +334,37 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
                     if "_subbed" in vid.name:
                         continue
                     temp_subbed = vid.with_name(f"{vid.stem}_subbed{vid.suffix}")
+                    ass_path_str = str(ass_target).replace("\\", "/").replace(":", "\\:")
                     if vid.suffix.lower() == ".mkv":
                         cmd = [
                             tools.ffmpeg_bin, "-y",
                             "-i", str(vid),
                             "-i", str(ass_target),
-                            "-c", "copy",
+                            "-map", "0:v",
+                            "-map", "0:a?",
+                            "-map", "1:0",
+                            "-c:v", "copy",
+                            "-c:a", "copy",
                             "-c:s", "ass",
+                            "-disposition:s:0", "default",
                             str(temp_subbed)
                         ]
-                    else:  # MP4 container
+                    else:  # MP4 container -- burn-in ASS for 100% player box compatibility
                         cmd = [
                             tools.ffmpeg_bin, "-y",
                             "-i", str(vid),
-                            "-i", str(ass_target),
-                            "-c", "copy",
-                            "-c:s", "mov_text",
+                            "-vf", f"subtitles='{ass_path_str}'",
+                            "-c:v", "libx264",
+                            "-preset", "ultrafast",
+                            "-crf", "18",
+                            "-c:a", "copy",
                             str(temp_subbed)
                         ]
-                    res = subprocess.run(cmd, capture_output=True, timeout=120)
+                    res = subprocess.run(cmd, capture_output=True, timeout=180)
                     if res.returncode == 0 and temp_subbed.exists() and temp_subbed.stat().st_size > 1000:
                         vid.unlink(missing_ok=True)
                         shutil.move(str(temp_subbed), str(vid))
-                        logger.info(f"Successfully embedded styled subtitle into {vid.name}")
+                        logger.info(f"Successfully embedded styled ASS subtitle into {vid.name}")
                     else:
                         if temp_subbed.exists():
                             temp_subbed.unlink(missing_ok=True)
