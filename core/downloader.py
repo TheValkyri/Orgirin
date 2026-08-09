@@ -328,6 +328,7 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
 
             logger.info(f"Converted subtitle {sub_file.name} to modern styled ASS (Futura) at {ass_target.name}")
 
+            burned_in_success = False
             if embed_sub and tools.ffmpeg_bin:
                 video_files = list(out_path.glob("*.mp4")) + list(out_path.glob("*.mkv"))
                 for vid in video_files:
@@ -351,12 +352,24 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
                     if res.returncode == 0 and temp_subbed.exists() and temp_subbed.stat().st_size > 1000:
                         vid.unlink(missing_ok=True)
                         shutil.move(str(temp_subbed), str(vid))
+                        burned_in_success = True
                         logger.info(f"Successfully burned in styled ASS subtitle into {vid.name}")
                     else:
                         err_msg = res.stderr.decode("utf-8", errors="ignore") if isinstance(res.stderr, bytes) else str(res.stderr)
                         logger.warning(f"FFmpeg subtitle burn-in returned code {res.returncode}: {err_msg[:300]}")
                         if temp_subbed.exists():
                             temp_subbed.unlink(missing_ok=True)
+
+            # Cleanup policy:
+            # If embed_sub requested and burn-in succeeded: delete ALL external sub files (.vtt, .srt, .ass) so VLC has 0 external files to auto-load.
+            # If embed_sub is False: remove raw .vtt/.srt files so ONLY the styled .ass file remains.
+            if embed_sub and burned_in_success:
+                sub_file.unlink(missing_ok=True)
+                ass_target.unlink(missing_ok=True)
+                logger.info(f"Cleaned up external sub files {sub_file.name} and {ass_target.name} after successful burn-in")
+            elif not embed_sub:
+                sub_file.unlink(missing_ok=True)
+                logger.info(f"Cleaned up raw sub file {sub_file.name}, leaving styled ASS {ass_target.name}")
         except Exception as exc:
             logger.warning(f"Error styling/embedding subtitle {sub_file.name}: {exc}")
 

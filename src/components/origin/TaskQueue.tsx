@@ -22,10 +22,10 @@ export interface QueueTask extends TaskProgress {
 }
 
 const dot: Record<TaskStatus, string> = {
-  QUEUED: "bg-muted-foreground",
-  FETCHING_INFO: "bg-warning",
+  QUEUED: "bg-amber-400 animate-pulse",
+  FETCHING_INFO: "bg-yellow-400 animate-pulse",
   DOWNLOADING: "bg-primary",
-  MERGING: "bg-accent",
+  MERGING: "bg-accent animate-pulse",
   DONE: "bg-success",
   ERROR: "bg-destructive",
   CANCELLED: "bg-muted-foreground",
@@ -246,6 +246,10 @@ export function TaskQueue({
                   <div className="mt-3">
                     {t.kind === "audio" ? (
                       <Waveform percent={t.percent} active={running} />
+                    ) : running && t.percent === 0 ? (
+                      <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-panel">
+                        <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-panel via-signal/60 to-panel" />
+                      </div>
                     ) : (
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-panel">
                         <div
@@ -255,13 +259,29 @@ export function TaskQueue({
                       </div>
                     )}
                     <div className="num mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                      <span>{t.percent}%</span>
+                      <span
+                        className={cn(
+                          running &&
+                            t.percent === 0 &&
+                            "animate-pulse font-medium text-amber-400",
+                        )}
+                      >
+                        {t.percent}%
+                      </span>
                       {t.status === "DOWNLOADING" ? (
                         <span>
                           {fmtSpeed(t.speedKBs)} · còn {fmtEta(t.etaSec)}
                         </span>
                       ) : (
-                        <span>{STATUS_LABEL[t.status]}</span>
+                        <span
+                          className={cn(
+                            (t.status === "QUEUED" ||
+                              t.status === "FETCHING_INFO") &&
+                              "animate-pulse font-medium text-amber-400",
+                          )}
+                        >
+                          {STATUS_LABEL[t.status]}
+                        </span>
                       )}
                     </div>
                   </div>
