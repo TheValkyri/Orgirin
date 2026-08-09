@@ -335,7 +335,7 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
                         continue
                     temp_subbed = vid.with_name(f"{vid.stem}_subbed{vid.suffix}")
                     ass_path_str = str(ass_target.resolve()).replace("\\", "/").replace(":", "\\:")
-                    # Burn-in ASS subtitles directly into video stream for 100% guaranteed display across all video players
+                    # Burn-in ASS subtitles directly into video stream and strip soft sub streams (-sn) to prevent double subtitles
                     cmd = [
                         tools.ffmpeg_bin, "-y",
                         "-i", str(vid),
@@ -344,6 +344,7 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
                         "-preset", "ultrafast",
                         "-crf", "18",
                         "-c:a", "copy",
+                        "-sn",
                         str(temp_subbed)
                     ]
                     res = subprocess.run(cmd, capture_output=True, timeout=180)
