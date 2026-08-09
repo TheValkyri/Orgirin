@@ -334,25 +334,27 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
                     if "_subbed" in vid.name:
                         continue
                     temp_subbed = vid.with_name(f"{vid.stem}_subbed{vid.suffix}")
-                    ass_path_str = str(ass_target.resolve()).replace("\\", "/").replace(":", "\\:")
+                    escaped_ass_name = ass_target.name.replace("'", "'\\''")
                     # Burn-in ASS subtitles directly into video stream and strip soft sub streams (-sn) to prevent double subtitles
                     cmd = [
                         tools.ffmpeg_bin, "-y",
-                        "-i", str(vid),
-                        "-vf", f"subtitles='{ass_path_str}'",
+                        "-i", vid.name,
+                        "-vf", f"subtitles='{escaped_ass_name}'",
                         "-c:v", "libx264",
                         "-preset", "ultrafast",
                         "-crf", "18",
                         "-c:a", "copy",
                         "-sn",
-                        str(temp_subbed)
+                        temp_subbed.name
                     ]
-                    res = subprocess.run(cmd, capture_output=True, timeout=180)
+                    res = subprocess.run(cmd, capture_output=True, timeout=180, cwd=str(out_path))
                     if res.returncode == 0 and temp_subbed.exists() and temp_subbed.stat().st_size > 1000:
                         vid.unlink(missing_ok=True)
                         shutil.move(str(temp_subbed), str(vid))
                         logger.info(f"Successfully burned in styled ASS subtitle into {vid.name}")
                     else:
+                        err_msg = res.stderr.decode("utf-8", errors="ignore") if isinstance(res.stderr, bytes) else str(res.stderr)
+                        logger.warning(f"FFmpeg subtitle burn-in returned code {res.returncode}: {err_msg[:300]}")
                         if temp_subbed.exists():
                             temp_subbed.unlink(missing_ok=True)
         except Exception as exc:
