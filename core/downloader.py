@@ -687,6 +687,8 @@ def download_tiktok_media(
     bitrate: Union[int, str, None] = None,
     start_sec: Optional[int] = None,
     end_sec: Optional[int] = None,
+    sub_lang: Optional[str] = None,
+    embed_sub: bool = False,
     progress_callback: Optional[Callable[[dict], None]] = None,
     is_cancelled_check: Optional[Callable[[], bool]] = None,
 ) -> str:
@@ -1056,6 +1058,44 @@ def download_tiktok_media(
     _verify_downloaded_file(target, "video", expected_gear=best_gear)
 
     _trim_file_if_needed(target, start_sec, end_sec)
+
+    if res.subtitles and sub_lang and sub_lang != "none":
+        try:
+            sub_entry = None
+            if sub_lang == "auto":
+                sub_entry = res.subtitles[0]
+            else:
+                for s in res.subtitles:
+                    if sub_lang.lower() in s.get("lang", "").lower():
+                        sub_entry = s
+                        break
+                if not sub_entry and res.subtitles:
+                    sub_entry = res.subtitles[0]
+
+            if sub_entry and sub_entry.get("url"):
+                s_resp = requests.get(sub_entry["url"], headers=headers, timeout=15)
+                if s_resp.status_code == 200 and len(s_resp.content) > 10:
+                    vtt_target = Path(output_dir) / f"{base_name}.vtt"
+                    with open(vtt_target, "wb") as f:
+                        f.write(s_resp.content)
+                    logger.info(f"Downloaded TikTok subtitle ({sub_entry.get('lang')}) to {vtt_target.name}")
+
+                    if embed_sub and tools.ffmpeg_bin and target.exists():
+                        embed_target = Path(output_dir) / f"{base_name} - {res_tag} (Sub).mp4"
+                        embed_cmd = [
+                            tools.ffmpeg_bin, "-y",
+                            "-i", str(target),
+                            "-i", str(vtt_target),
+                            "-c", "copy", "-c:s", "mov_text",
+                            str(embed_target)
+                        ]
+                        sub_res = subprocess.run(embed_cmd, capture_output=True, timeout=60)
+                        if sub_res.returncode == 0 and embed_target.exists() and embed_target.stat().st_size > 1000:
+                            target.unlink(missing_ok=True)
+                            shutil.move(str(embed_target), str(target))
+                            logger.info(f"Successfully embedded subtitle into {target.name}")
+        except Exception as exc:
+            logger.warning(f"TikTok subtitle download/embedding failed: {exc}")
 
     if progress_callback:
         progress_callback({"status": "DONE", "percent": 100.0, "quality_tag": "Tải Thành Công"})

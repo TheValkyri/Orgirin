@@ -49,6 +49,7 @@ class TikTokMediaResult:
 
     video_gears: list[TikTokMediaGear] = field(default_factory=list)
     images: list[str] = field(default_factory=list)
+    subtitles: list[dict] = field(default_factory=list)
 
     cover_url: Optional[str] = None
     music_url: Optional[str] = None

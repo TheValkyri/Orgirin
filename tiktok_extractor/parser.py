@@ -271,6 +271,18 @@ def parse_page_json(wrapper: dict) -> TikTokMediaResult:
     if dur_sec > 10000:
         dur_sec = dur_sec // 1000
 
+    subtitles = []
+    if isinstance(video, dict):
+        sub_list = video.get("subtitleInfos") or video.get("subtitleInfo") or []
+        for s in sub_list:
+            if isinstance(s, dict) and s.get("Url"):
+                lang_code = str(s.get("LanguageCodeName") or s.get("Language") or "unknown")
+                subtitles.append({
+                    "lang": lang_code,
+                    "url": s.get("Url"),
+                    "format": str(s.get("Format", "webvtt")).lower(),
+                })
+
     return TikTokMediaResult(
         post_type="photo" if images else "video",
         post_id=str(item.get("id", "")) if isinstance(item, dict) else "",
@@ -280,6 +292,7 @@ def parse_page_json(wrapper: dict) -> TikTokMediaResult:
         duration_sec=dur_sec,
         video_gears=video_gears,
         images=images,
+        subtitles=subtitles,
         cover_url=_parse_cover(video),
         music_url=music_url,
         music_title=music_title,

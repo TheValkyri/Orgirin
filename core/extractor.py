@@ -246,11 +246,12 @@ def _extract_tiktok_info(url: str) -> dict:
             "isPlaylist": False,
             "isYouTubePlaylist": False,
             "capabilities": {
-                "supportsSubtitles": False,
+                "supportsSubtitles": bool(res.subtitles),
                 "supportsMp3": True,
                 "supportsTrim": True,
                 "supportsNativeAudio": True,
             },
+            "subtitles": res.subtitles,
             "formats": formats
         }
     except Exception as e:
