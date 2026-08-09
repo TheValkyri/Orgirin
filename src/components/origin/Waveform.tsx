@@ -13,6 +13,9 @@ export function Waveform({
   const frame = useRef(0);
 
   useEffect(() => {
+    // Zero CPU/GPU animation overhead when task is not active!
+    if (!active) return;
+
     const reduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -24,10 +27,8 @@ export function Waveform({
       const el = ref.current;
       if (el) {
         const children = el.children;
-        // Fast energetic motion while active, smooth gentle wave when idle/done
-        const speed = active ? 0.11 : 0.035;
         for (let i = 0; i < children.length; i += 1) {
-          const t = frame.current * speed + i * 0.35;
+          const t = frame.current * 0.11 + i * 0.35;
           const h =
             20 +
             Math.abs(Math.sin(t) * 45) +
@@ -48,15 +49,22 @@ export function Waveform({
         className="absolute inset-0 flex items-center justify-between gap-[2px] px-1.5"
         aria-hidden
       >
-        {Array.from({ length: bars }, (_, i) => (
-          <span
-            key={i}
-            className="w-full rounded-full bg-signal"
-            style={{
-              opacity: active || percent > 0 ? 1 : 0.4,
-            }}
-          />
-        ))}
+        {Array.from({ length: bars }, (_, i) => {
+          // Balanced, professional static audio waveform shape for completed tasks
+          const distFromCenter = Math.abs(i - (bars - 1) / 2) / ((bars - 1) / 2);
+          const staticHeight = Math.round(25 + (1 - distFromCenter) * 55 + Math.abs(Math.sin(i * 0.85)) * 20);
+
+          return (
+            <span
+              key={i}
+              className="w-full rounded-full bg-signal transition-[height] duration-300"
+              style={{
+                height: active ? undefined : `${staticHeight}%`,
+                opacity: active || percent > 0 ? 1 : 0.4,
+              }}
+            />
+          );
+        })}
       </div>
       <div
         className="absolute inset-y-0 right-0 bg-background/70 backdrop-grayscale transition-[width] duration-500 ease-out"
