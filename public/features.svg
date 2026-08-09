@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="100%">
+  <defs>
+    <!-- Dark Background -->
+    <linearGradient id="featBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08080C" />
+      <stop offset="50%" stop-color="#120F16" />
+      <stop offset="100%" stop-color="#180A0A" />
+    </linearGradient>
+
+    <!-- Card Fill -->
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1B1726" opacity="0.95" />
+      <stop offset="100%" stop-color="#120F1C" opacity="0.95" />
+    </linearGradient>
+
+    <!-- Red-Orange Border -->
+    <linearGradient id="redOrangeBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2E3B" />
+      <stop offset="50%" stop-color="#FF6600" />
+      <stop offset="100%" stop-color="#FF9900" />
+    </linearGradient>
+
+    <filter id="cardGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="440" rx="20" fill="url(#featBg)" />
+  <rect width="1196" height="436" x="2" y="2" rx="19" fill="none" stroke="#FF3300" stroke-opacity="0.3" stroke-width="1.5" />
+
+  <!-- Row 1: YouTube & TikTok (Side-by-Side Cards) -->
+  <g transform="translate(40, 30)">
+    <rect width="540" height="180" rx="16" fill="url(#cardBg)" stroke="url(#redOrangeBorder)" stroke-width="1.5" filter="url(#cardGlow)" />
+    <text x="24" y="38" font-family="-apple-system, sans-serif" font-size="19" font-weight="800" fill="#FFFFFF">🎬 YouTube Dual-Engine Pipeline</text>
+    
+    <circle cx="32" cy="70" r="4" fill="#FF2E3B" />
+    <text x="46" y="74" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Best Quality (MKV AV1/VP9): <tspan font-size="13" font-weight="500" fill="#CBD5E1">Saves 50-60% space.</tspan></text>
+
+    <circle cx="32" cy="106" r="4" fill="#FF6600" />
+    <text x="46" y="110" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Compatible MP4 (H.264/AAC): <tspan font-size="13" font-weight="500" fill="#CBD5E1">100% legacy playback.</tspan></text>
+
+    <circle cx="32" cy="142" r="4" fill="#FF9900" />
+    <text x="46" y="146" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Dynamic Predictions: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Accurate file sizes within ~99%.</tspan></text>
+  </g>
+
+  <g transform="translate(620, 30)">
+    <rect width="540" height="180" rx="16" fill="url(#cardBg)" stroke="url(#redOrangeBorder)" stroke-width="1.5" filter="url(#cardGlow)" />
+    <text x="24" y="38" font-family="-apple-system, sans-serif" font-size="19" font-weight="800" fill="#FFFFFF">🎵 TikTok Clean HD &amp; Carousel</text>
+    
+    <circle cx="32" cy="70" r="4" fill="#FF2E3B" />
+    <text x="46" y="74" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">No-Watermark Video: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Clean 1080p H.265/H.264 streams.</tspan></text>
+
+    <circle cx="32" cy="106" r="4" fill="#FF6600" />
+    <text x="46" y="110" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Carousel Photo Albums: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Full image carousels + audio.</tspan></text>
+
+    <circle cx="32" cy="142" r="4" fill="#FF9900" />
+    <text x="46" y="146" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Audio Native Copy: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Direct stream-copy (0% quality loss).</tspan></text>
+  </g>
+
+  <!-- Row 2: Verification & Shell -->
+  <g transform="translate(40, 230)">
+    <rect width="540" height="180" rx="16" fill="url(#cardBg)" stroke="url(#redOrangeBorder)" stroke-width="1.5" filter="url(#cardGlow)" />
+    <text x="24" y="38" font-family="-apple-system, sans-serif" font-size="19" font-weight="800" fill="#FFFFFF">🛡️ Real-Time ffprobe Verification</text>
+    
+    <circle cx="32" cy="70" r="4" fill="#FF2E3B" />
+    <text x="46" y="74" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Stream Integrity Audit: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Verifies video &amp; audio post-download.</tspan></text>
+
+    <circle cx="32" cy="106" r="4" fill="#FF6600" />
+    <text x="46" y="110" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Header Magic-Bytes Audit: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Validates image headers on disk.</tspan></text>
+
+    <circle cx="32" cy="142" r="4" fill="#FF9900" />
+    <text x="46" y="146" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Strict Exception Seam: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Raises VerificationMismatchError.</tspan></text>
+  </g>
+
+  <g transform="translate(620, 230)">
+    <rect width="540" height="180" rx="16" fill="url(#cardBg)" stroke="url(#redOrangeBorder)" stroke-width="1.5" filter="url(#cardGlow)" />
+    <text x="24" y="38" font-family="-apple-system, sans-serif" font-size="19" font-weight="800" fill="#FFFFFF">⚡ Desktop Shell &amp; Trim Engine</text>
+    
+    <circle cx="32" cy="70" r="4" fill="#FF2E3B" />
+    <text x="46" y="74" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">PySide6 Native Shell: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Async QWebChannel bridge.</tspan></text>
+
+    <circle cx="32" cy="106" r="4" fill="#FF6600" />
+    <text x="46" y="110" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Trim Range Engine: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Cuts video by seconds before downloading.</tspan></text>
+
+    <circle cx="32" cy="142" r="4" fill="#FF9900" />
+    <text x="46" y="146" font-family="-apple-system, sans-serif" font-size="14" font-weight="700" fill="#FF6600">Multi-Threaded Queue: <tspan font-size="13" font-weight="500" fill="#CBD5E1">Parallel queue manager with real-time UI.</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+{
+  "__DEFAULT_SCOPE__": {
+    "webapp.video-detail": {
+      "statusCode": 0,
+      "itemInfo": {
+        "itemStruct": {
+          "id": "7300000000000000008",
+          "desc": "same resolution, different codec",
+          "createTime": "1750000600",
+          "author": { "uniqueId": "tiebreak_user", "nickname": "Tiebreak User" },
+          "video": {
+            "height": 1920,
+            "width": 1080,
+            "playAddr": "",
+            "downloadAddr": "",
+            "bitrateInfo": [
+              {
+                "GearName": "adapt_lowest_1080_h264",
+                "Bitrate": 2000000,
+                "CodecType": "h264",
+                "PlayAddr": {
+                  "UrlList": [
+                    "https://v16-webapp-prime.tiktok.com/video/tos/h264_1080p.mp4?expire=9999999999&sig=h264"
+                  ],
+                  "Width": 1080,
+                  "Height": 1920
+                }
+              },
+              {
+                "GearName": "adapt_lowest_1080_h265",
+                "Bitrate": 1200000,
+                "CodecType": "h265_hvc1",
+                "PlayAddr": {
+                  "UrlList": [
+                    "https://v16-webapp-prime.tiktok.com/video/tos/h265_1080p.mp4?expire=9999999999&sig=h265"
+                  ],
+                  "Width": 1080,
+                  "Height": 1920
+                }
+              }
+            ]
+          },
+          "music": { "title": "x", "authorName": "y", "playUrl": { "urlList": [] } }
+        }
+      }
+    }
+  }
+}

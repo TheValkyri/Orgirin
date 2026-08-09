@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09080E" />
+      <stop offset="50%" stop-color="#120F16" />
+      <stop offset="100%" stop-color="#180A0A" />
+    </linearGradient>
+
+    <linearGradient id="gBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2E3B" />
+      <stop offset="50%" stop-color="#FF6600" />
+      <stop offset="100%" stop-color="#FF9900" />
+    </linearGradient>
+
+    <linearGradient id="cardFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#191624" opacity="0.95" />
+      <stop offset="100%" stop-color="#120F1C" opacity="0.95" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="420" rx="20" fill="url(#gBg)" />
+  <rect width="1196" height="416" x="2" y="2" rx="19" fill="none" stroke="#FF3300" stroke-opacity="0.3" stroke-width="1.5" />
+
+  <!-- Step 1: Clone -->
+  <g transform="translate(40, 30)">
+    <rect width="260" height="175" rx="14" fill="url(#cardFill)" stroke="url(#gBorder)" stroke-width="1.5" />
+    <text x="20" y="35" font-family="-apple-system, sans-serif" font-size="15" font-weight="800" fill="#FF2E3B">Step 1: Clone</text>
+    <rect x="16" y="55" width="228" height="95" rx="8" fill="#0C0A12" stroke="#FF4500" stroke-opacity="0.3" />
+    <text x="26" y="80" font-family="monospace" font-size="11" font-weight="600" fill="#FF8800">git clone</text>
+    <text x="26" y="100" font-family="monospace" font-size="10" fill="#CBD5E1">https://github.com/</text>
+    <text x="26" y="118" font-family="monospace" font-size="10" fill="#CBD5E1">TheValkyri/Orgirin.git</text>
+    <text x="26" y="136" font-family="monospace" font-size="11" fill="#FF6600">cd Orgirin</text>
+  </g>
+
+  <!-- Step 2: Install -->
+  <g transform="translate(325, 30)">
+    <rect width="260" height="175" rx="14" fill="url(#cardFill)" stroke="url(#gBorder)" stroke-width="1.5" />
+    <text x="20" y="35" font-family="-apple-system, sans-serif" font-size="15" font-weight="800" fill="#FF5500">Step 2: Install</text>
+    <rect x="16" y="55" width="228" height="95" rx="8" fill="#0C0A12" stroke="#FF4500" stroke-opacity="0.3" />
+    <text x="26" y="85" font-family="monospace" font-size="12" font-weight="600" fill="#FF8800">npm install</text>
+    <text x="26" y="118" font-family="monospace" font-size="12" font-weight="600" fill="#FF8800">pip install</text>
+    <text x="26" y="136" font-family="monospace" font-size="10" fill="#64748B">-r requirements.txt</text>
+  </g>
+
+  <!-- Step 3: Launch -->
+  <g transform="translate(610, 30)">
+    <rect width="260" height="175" rx="14" fill="url(#cardFill)" stroke="url(#gBorder)" stroke-width="1.5" />
+    <text x="20" y="35" font-family="-apple-system, sans-serif" font-size="15" font-weight="800" fill="#FF7700">Step 3: Launch</text>
+    <rect x="16" y="55" width="228" height="95" rx="8" fill="#0C0A12" stroke="#FF4500" stroke-opacity="0.3" />
+    <text x="26" y="82" font-family="monospace" font-size="10" font-weight="600" fill="#FF8800">python build_static_ui.py</text>
+    <text x="26" y="105" font-family="monospace" font-size="11" font-weight="600" fill="#FF5500">python shell/main.py</text>
+    <text x="26" y="130" font-family="-apple-system, sans-serif" font-size="10" fill="#64748B">Desktop PySide6 Shell</text>
+  </g>
+
+  <!-- Step 4: Pytest -->
+  <g transform="translate(895, 30)">
+    <rect width="265" height="175" rx="14" fill="url(#cardFill)" stroke="url(#gBorder)" stroke-width="1.5" />
+    <text x="20" y="35" font-family="-apple-system, sans-serif" font-size="15" font-weight="800" fill="#10B981">Step 4: Pytest</text>
+    <rect x="16" y="55" width="233" height="95" rx="8" fill="#0C0A12" stroke="#10B981" stroke-opacity="0.4" />
+    <text x="26" y="80" font-family="monospace" font-size="11" font-weight="600" fill="#10B981">python -m pytest</text>
+    <text x="26" y="100" font-family="monospace" font-size="10" fill="#CBD5E1">tests/ tiktok_extractor/</text>
+    <text x="26" y="130" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#10B981">39/39 Tests Passed</text>
+  </g>
+
+  <!-- Row 2: Build Executable & Repository Tree -->
+  <g transform="translate(40, 225)">
+    <rect width="530" height="170" rx="14" fill="url(#cardFill)" stroke="#10B981" stroke-width="1.5" />
+    <text x="20" y="35" font-family="-apple-system, sans-serif" font-size="16" font-weight="800" fill="#10B981">📦 Build Single-File Executable (.exe)</text>
+    <rect x="16" y="50" width="498" height="98" rx="8" fill="#0C0A12" stroke="#10B981" stroke-opacity="0.3" />
+    <text x="30" y="76" font-family="monospace" font-size="14" font-weight="700" fill="#10B981">python prepare_packaging.py</text>
+    <text x="30" y="102" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" fill="#CBD5E1">Output Executable Location:</text>
+    <text x="30" y="124" font-family="monospace" font-size="12" fill="#34D399">dist/OriginStudio/OriginStudio.exe</text>
+  </g>
+
+  <g transform="translate(595, 225)">
+    <rect width="565" height="170" rx="14" fill="url(#cardFill)" stroke="url(#gBorder)" stroke-width="1.5" />
+    <text x="20" y="35" font-family="-apple-system, sans-serif" font-size="16" font-weight="800" fill="#FF5500">📁 Repository Structure</text>
+    <rect x="16" y="50" width="533" height="98" rx="8" fill="#0C0A12" stroke="#FF4500" stroke-opacity="0.3" />
+    <text x="30" y="70" font-family="monospace" font-size="11" fill="#FF5500">Orgirin/</text>
+    <text x="30" y="88" font-family="monospace" font-size="11" fill="#CBD5E1">├── 📂 core/          <tspan fill="#64748B"># Python backend (yt-dlp, downloader seam)</tspan></text>
+    <text x="30" y="106" font-family="monospace" font-size="11" fill="#CBD5E1">├── 📂 tiktok_extractor/ <tspan fill="#64748B"># TikTok parser &amp; orchestrator</tspan></text>
+    <text x="30" y="124" font-family="monospace" font-size="11" fill="#CBD5E1">├── 📂 shell/ &amp; 📂 src/  <tspan fill="#64748B"># PySide6 App Shell &amp; React 19 UI</tspan></text>
+    <text x="30" y="142" font-family="monospace" font-size="11" fill="#CBD5E1">└── 📂 tests/ &amp; 📂 packaging/ <tspan fill="#64748B"># Pytest suite &amp; PyInstaller specs</tspan></text>
+  </g>
+</svg>

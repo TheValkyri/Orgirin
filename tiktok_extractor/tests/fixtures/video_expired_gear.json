@@ -1,0 +1,40 @@
+{
+  "__DEFAULT_SCOPE__": {
+    "webapp.video-detail": {
+      "statusCode": 0,
+      "itemInfo": {
+        "itemStruct": {
+          "id": "7300000000000000002",
+          "desc": "expired url test",
+          "createTime": "1750000100",
+          "author": { "uniqueId": "example_user", "nickname": "Example User" },
+          "video": {
+            "height": 1024,
+            "width": 576,
+            "duration": 8,
+            "playAddr": "https://v16-webapp-prime.tiktok.com/video/tos/play_addr.mp4?expire=1000000000&sig=abc",
+            "downloadAddr": "https://v16-webapp-prime.tiktok.com/video/tos/download_addr_watermarked.mp4?expire=1000000000&sig=def",
+            "bitrateInfo": [
+              {
+                "GearName": "adapt_lowest_1080_1",
+                "Bitrate": 1200000,
+                "BitrateFPS": 30,
+                "CodecType": "h265_hvc1",
+                "PlayAddr": {
+                  "Uri": "expired_gear",
+                  "UrlList": [
+                    "https://v16-webapp-prime.tiktok.com/video/tos/h265_expired.mp4?expire=1000000000&sig=ghi"
+                  ],
+                  "Width": 1080,
+                  "Height": 1920,
+                  "DataSize": 5000000
+                }
+              }
+            ]
+          },
+          "music": { "title": "original sound", "authorName": "example_user", "playUrl": { "urlList": [] } }
+        }
+      }
+    }
+  }
+}

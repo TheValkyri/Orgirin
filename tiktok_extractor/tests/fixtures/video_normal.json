@@ -1,0 +1,81 @@
+{
+  "__DEFAULT_SCOPE__": {
+    "webapp.video-detail": {
+      "statusCode": 0,
+      "itemInfo": {
+        "itemStruct": {
+          "id": "7300000000000000001",
+          "desc": "test caption #fyp",
+          "createTime": "1750000000",
+          "author": {
+            "uniqueId": "example_user",
+            "nickname": "Example User"
+          },
+          "video": {
+            "height": 1024,
+            "width": 576,
+            "duration": 12,
+            "playAddr": "https://v16-webapp-prime.tiktok.com/video/tos/play_addr_540p.mp4?expire=9999999999&sig=abc",
+            "downloadAddr": "https://v16-webapp-prime.tiktok.com/video/tos/download_addr_watermarked.mp4?expire=9999999999&sig=def",
+            "bitrateInfo": [
+              {
+                "GearName": "adapt_lowest_1080_1",
+                "Bitrate": 1531385,
+                "BitrateFPS": 30,
+                "CodecType": "h265_hvc1",
+                "PlayAddr": {
+                  "Uri": "v12044g_h265_1080",
+                  "UrlList": [
+                    "https://v16-webapp-prime.tiktok.com/video/tos/h265_1080p.mp4?expire=9999999999&sig=ghi"
+                  ],
+                  "Width": 1080,
+                  "Height": 1920,
+                  "DataSize": 6275042
+                }
+              },
+              {
+                "GearName": "adapt_lowest_720_1",
+                "Bitrate": 846092,
+                "BitrateFPS": 30,
+                "CodecType": "h264",
+                "PlayAddr": {
+                  "Uri": "v12044g_h264_720",
+                  "UrlList": [
+                    "https://v16-webapp-prime.tiktok.com/video/tos/h264_720p.mp4?expire=9999999999&sig=jkl"
+                  ],
+                  "Width": 720,
+                  "Height": 1280,
+                  "DataSize": 2970000
+                }
+              },
+              {
+                "GearName": "adapt_lowest_540_1",
+                "Bitrate": 185289,
+                "BitrateFPS": 30,
+                "CodecType": "h264",
+                "PlayAddr": {
+                  "Uri": "v12044g_h264_540",
+                  "UrlList": [
+                    "https://v16-webapp-prime.tiktok.com/video/tos/h264_540p.mp4?expire=9999999999&sig=mno"
+                  ],
+                  "Width": 576,
+                  "Height": 1024,
+                  "DataSize": 339280
+                }
+              }
+            ]
+          },
+          "music": {
+            "title": "original sound - example_user",
+            "authorName": "example_user",
+            "playUrl": {
+              "urlList": [
+                "https://sf16-ies-music.tiktokcdn.com/obj/audio_original.mp3?expire=9999999999&sig=pqr"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

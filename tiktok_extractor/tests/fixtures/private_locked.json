@@ -1,0 +1,17 @@
+{
+  "__DEFAULT_SCOPE__": {
+    "webapp.video-detail": {
+      "statusCode": 0,
+      "itemInfo": {
+        "itemStruct": {
+          "id": "7300000000000000005",
+          "desc": "",
+          "createTime": "1750000400",
+          "author": { "uniqueId": "private_user", "nickname": "Private User" },
+          "video": {},
+          "privateItem": true
+        }
+      }
+    }
+  }
+}

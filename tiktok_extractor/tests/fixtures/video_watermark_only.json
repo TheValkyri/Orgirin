@@ -1,0 +1,24 @@
+{
+  "__DEFAULT_SCOPE__": {
+    "webapp.video-detail": {
+      "statusCode": 0,
+      "itemInfo": {
+        "itemStruct": {
+          "id": "7300000000000000003",
+          "desc": "watermark-only test",
+          "createTime": "1750000200",
+          "author": { "uniqueId": "example_user", "nickname": "Example User" },
+          "video": {
+            "height": 1024,
+            "width": 576,
+            "duration": 5,
+            "playAddr": "",
+            "downloadAddr": "https://v16-webapp-prime.tiktok.com/video/tos/download_addr_watermarked.mp4?expire=9999999999&sig=def",
+            "bitrateInfo": []
+          },
+          "music": { "title": "original sound", "authorName": "example_user", "playUrl": { "urlList": [] } }
+        }
+      }
+    }
+  }
+}

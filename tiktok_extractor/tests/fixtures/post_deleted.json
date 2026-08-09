@@ -1,0 +1,9 @@
+{
+  "__DEFAULT_SCOPE__": {
+    "webapp.video-detail": {
+      "statusCode": 10204,
+      "statusMsg": "item doesn't exist",
+      "itemInfo": {}
+    }
+  }
+}

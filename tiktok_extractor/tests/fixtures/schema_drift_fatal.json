@@ -1,0 +1,10 @@
+{
+  "__SOME_TOTALLY_NEW_WRAPPER__": {
+    "payload": {
+      "postId": "7300000000000000007",
+      "text": "field names completely changed, no 'id'/'author'/'video' keys",
+      "creator": { "handle": "someone" },
+      "media": { "renditions": [] }
+    }
+  }
+}

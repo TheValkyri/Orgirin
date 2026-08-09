@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 70" width="100%" height="100%">
+  <defs>
+    <linearGradient id="tGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF2E3B" />
+      <stop offset="50%" stop-color="#FF5500" />
+      <stop offset="100%" stop-color="#FF9900" />
+    </linearGradient>
+    <filter id="tGlow3" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="1200" height="70" rx="12" fill="#0D0B12" stroke="#FF3300" stroke-opacity="0.25" stroke-width="1" />
+  <text x="30" y="44" font-family="-apple-system, sans-serif" font-size="24" font-weight="900" letter-spacing="1.5" fill="url(#tGrad3)" filter="url(#tGlow3)">
+    🚀 QUICK START &amp; DEVELOPMENT GUIDE
+  </text>
+  <line x1="580" y1="35" x2="1170" y2="35" stroke="url(#tGrad3)" stroke-opacity="0.3" stroke-width="2" stroke-dasharray="6 6" />
+</svg>

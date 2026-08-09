@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="100%">
+  <defs>
+    <!-- Background Dark Gradient -->
+    <linearGradient id="heroBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09080E" />
+      <stop offset="50%" stop-color="#120F18" />
+      <stop offset="100%" stop-color="#1A0A0B" />
+    </linearGradient>
+
+    <!-- Red-Orange Glow Gradient -->
+    <linearGradient id="redOrangeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF2E3B" />
+      <stop offset="50%" stop-color="#FF5500" />
+      <stop offset="100%" stop-color="#FF8800" />
+    </linearGradient>
+
+    <!-- Metric Card Fill -->
+    <linearGradient id="metricCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1A1826" opacity="0.95" />
+      <stop offset="100%" stop-color="#12101C" opacity="0.95" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="heroGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Main Canvas -->
+  <rect width="1200" height="440" rx="20" fill="url(#heroBg)" />
+  <rect width="1196" height="436" x="2" y="2" rx="19" fill="none" stroke="#FF3300" stroke-opacity="0.35" stroke-width="1.5" />
+
+  <!-- Grid Background Pattern -->
+  <g stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1">
+    <line x1="0" y1="60" x2="1200" y2="60" />
+    <line x1="0" y1="120" x2="1200" y2="120" />
+    <line x1="0" y1="180" x2="1200" y2="180" />
+    <line x1="0" y1="240" x2="1200" y2="240" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="0" y1="360" x2="1200" y2="360" />
+    <line x1="200" y1="0" x2="200" y2="440" />
+    <line x1="400" y1="0" x2="400" y2="440" />
+    <line x1="600" y1="0" x2="600" y2="440" />
+    <line x1="800" y1="0" x2="800" y2="440" />
+    <line x1="1000" y1="0" x2="1000" y2="440" />
+  </g>
+
+  <!-- Ambient Glow Behind Hero -->
+  <circle cx="600" cy="140" r="200" fill="#FF3300" opacity="0.2" filter="url(#heroGlow)" />
+
+  <!-- Top Small Tag Header -->
+  <g transform="translate(600, 55)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+    <text font-size="13" font-weight="700" letter-spacing="3" fill="#FF5500" opacity="0.95">
+      ORIGIN STUDIO &amp; PRODUCTION-GRADE DESKTOP ARCHITECTURE
+    </text>
+  </g>
+
+  <!-- Big Hero Punch Line Text -->
+  <g transform="translate(600, 135)" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+    <text font-size="58" font-weight="900" letter-spacing="-1" fill="#FFFFFF">
+      Never compromise <tspan fill="url(#redOrangeGradient)">quality.</tspan>
+    </text>
+    <text y="50" font-size="20" font-weight="600" fill="#CBD5E1" opacity="0.9">
+      YouTube &amp; TikTok Dual Pipeline &amp;bull; AV1/VP9 &amp;bull; 0-Loss Audio &amp;bull; ffprobe Verified
+    </text>
+  </g>
+
+  <!-- Divider Line -->
+  <line x1="150" y1="230" x2="1050" y2="230" stroke="#FF4500" stroke-opacity="0.35" stroke-width="1.5" />
+
+  <!-- Metric Badges Row (5 Cards) -->
+  <!-- Card 1: Codec Savings -->
+  <g transform="translate(60, 265)">
+    <rect width="204" height="120" rx="14" fill="url(#metricCard)" stroke="#FF2E3B" stroke-opacity="0.6" stroke-width="1.5" />
+    <text x="102" y="45" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="30" font-weight="900" fill="#FF3B30">
+      50-60%
+    </text>
+    <text x="102" y="75" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
+      AV1 / VP9 SIZE SAVINGS
+    </text>
+    <text x="102" y="94" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748B">
+      vs Legacy H.264
+    </text>
+  </g>
+
+  <!-- Card 2: Size Prediction -->
+  <g transform="translate(284, 265)">
+    <rect width="204" height="120" rx="14" fill="url(#metricCard)" stroke="#FF5500" stroke-opacity="0.6" stroke-width="1.5" />
+    <text x="102" y="45" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="30" font-weight="900" fill="#FF6600">
+      ~99%
+    </text>
+    <text x="102" y="75" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
+      PRE-DOWNLOAD PREDICTION
+    </text>
+    <text x="102" y="94" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748B">
+      Dynamic Per-Format Size
+    </text>
+  </g>
+
+  <!-- Card 3: ffprobe Verified -->
+  <g transform="translate(508, 265)">
+    <rect width="204" height="120" rx="14" fill="url(#metricCard)" stroke="#10B981" stroke-opacity="0.7" stroke-width="1.5" />
+    <text x="102" y="45" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="30" font-weight="900" fill="#10B981">
+      100%
+    </text>
+    <text x="102" y="75" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
+      FFPROBE VERIFIED
+    </text>
+    <text x="102" y="94" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748B">
+      Zero Corrupt/0-Byte Files
+    </text>
+  </g>
+
+  <!-- Card 4: Audio Loss -->
+  <g transform="translate(732, 265)">
+    <rect width="204" height="120" rx="14" fill="url(#metricCard)" stroke="#3B82F6" stroke-opacity="0.6" stroke-width="1.5" />
+    <text x="102" y="45" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="30" font-weight="900" fill="#3B82F6">
+      0%
+    </text>
+    <text x="102" y="75" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
+      AUDIO QUALITY LOSS
+    </text>
+    <text x="102" y="94" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748B">
+      Native Stream-Copy
+    </text>
+  </g>
+
+  <!-- Card 5: Pytest Status -->
+  <g transform="translate(956, 265)">
+    <rect width="184" height="120" rx="14" fill="url(#metricCard)" stroke="#A855F7" stroke-opacity="0.6" stroke-width="1.5" />
+    <text x="92" y="45" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="30" font-weight="900" fill="#C084FC">
+      39/39
+    </text>
+    <text x="92" y="75" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="12" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
+      PYTEST SUITE
+    </text>
+    <text x="92" y="94" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#64748B">
+      100% Tests Passing
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+.pytest_cache/
+.tanstack/
+.venv/
+env/
+venv/
+
+# Build artifacts & outputs
+.output/
+dist/
+build/
+*.egg-info/
+
+# Executables & Binaries
+*.exe
+packaging/ffmpeg/*.exe
+packaging/ffmpeg/ffmpeg.exe
+packaging/ffmpeg/ffprobe.exe
+
+# Python cache & logs
+__pycache__/
+*.pyc
+*.pyo
+*.log
+
+# Temporary files & task workspaces
+vite.config.timestamp_*.js
+package-lock.json
+.origin-tmp/
+scratch/
+
+# Internal audit, plan & dev files
+PLAN.md
+planaudit.md
+audit_report*.md
+implementation_plan.md
+task.md
+walkthrough.md
+*-plan.md
+skills-lock.json
+src/routes/README.md
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

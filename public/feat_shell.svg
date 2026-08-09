@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cBg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14111E" />
+      <stop offset="100%" stop-color="#0B0912" />
+    </linearGradient>
+    <linearGradient id="cBorder4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF2E3B" />
+      <stop offset="50%" stop-color="#FF6600" />
+      <stop offset="100%" stop-color="#FF9900" />
+    </linearGradient>
+    <filter id="cGlow4" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="1200" height="160" rx="16" fill="url(#cBg4)" stroke="url(#cBorder4)" stroke-width="1.5" filter="url(#cGlow4)" />
+  <text x="32" y="42" font-family="-apple-system, sans-serif" font-size="22" font-weight="900" fill="#FFFFFF">⚡ Desktop Shell &amp; Trim Engine</text>
+  
+  <circle cx="42" cy="78" r="5" fill="#FF2E3B" />
+  <text x="58" y="83" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#FF6600">PySide6 Native Shell: <tspan font-size="14" font-weight="500" fill="#CBD5E1">High-speed asynchronous QWebChannel bridge connecting React 19 UI with Python core.</tspan></text>
+
+  <circle cx="42" cy="110" r="5" fill="#FF6600" />
+  <text x="58" y="115" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#FF6600">Trim Range Engine: <tspan font-size="14" font-weight="500" fill="#CBD5E1">Cut precise video segments by seconds directly prior to downloading, saving 90% space.</tspan></text>
+
+  <circle cx="42" cy="142" r="5" fill="#FF9900" />
+  <text x="58" y="147" font-family="-apple-system, sans-serif" font-size="15" font-weight="700" fill="#FF6600">Multi-Threaded Queue: <tspan font-size="14" font-weight="500" fill="#CBD5E1">Parallel download queue manager with live speedmeter, ETA &amp; instant cancel seams.</tspan></text>
+</svg>

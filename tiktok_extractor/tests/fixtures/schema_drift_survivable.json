@@ -1,0 +1,35 @@
+{
+  "__NEXT_DATA_V2__": {
+    "webapp.video-detail-v2": {
+      "someNewWrapperKey": {
+        "nestedDifferently": {
+          "id": "7300000000000000006",
+          "desc": "survived a reshuffle",
+          "createTime": "1750000500",
+          "author": { "uniqueId": "reshuffled_user", "nickname": "Reshuffled User" },
+          "video": {
+            "height": 1024,
+            "width": 576,
+            "playAddr": "",
+            "downloadAddr": "",
+            "bitrateInfo": [
+              {
+                "GearName": "adapt_lowest_720_1",
+                "Bitrate": 800000,
+                "CodecType": "h264",
+                "PlayAddr": {
+                  "UrlList": [
+                    "https://v16-webapp-prime.tiktok.com/video/tos/reshuffled_720p.mp4?expire=9999999999&sig=zzz"
+                  ],
+                  "Width": 720,
+                  "Height": 1280
+                }
+              }
+            ]
+          },
+          "music": { "title": "x", "authorName": "y", "playUrl": { "urlList": [] } }
+        }
+      }
+    }
+  }
+}

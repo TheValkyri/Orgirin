@@ -1,0 +1,55 @@
+{
+  "__DEFAULT_SCOPE__": {
+    "webapp.video-detail": {
+      "statusCode": 0,
+      "itemInfo": {
+        "itemStruct": {
+          "id": "7300000000000000004",
+          "desc": "photo dump #ootd",
+          "createTime": "1750000300",
+          "author": { "uniqueId": "photo_user", "nickname": "Photo User" },
+          "imagePost": {
+            "images": [
+              {
+                "imageURL": {
+                  "urlList": [
+                    "https://p16-sign-va.tiktokcdn.com/obj/img_original_1.jpeg?expire=9999999999&sig=aaa"
+                  ]
+                },
+                "imageWidth": 1440,
+                "imageHeight": 1920
+              },
+              {
+                "imageURL": {
+                  "urlList": [
+                    "https://p16-sign-va.tiktokcdn.com/obj/img_original_2.jpeg?expire=9999999999&sig=bbb"
+                  ]
+                },
+                "imageWidth": 1440,
+                "imageHeight": 1920
+              },
+              {
+                "imageURL": {
+                  "urlList": [
+                    "https://p16-sign-va.tiktokcdn.com/obj/img_original_3.jpeg?expire=9999999999&sig=ccc"
+                  ]
+                },
+                "imageWidth": 1440,
+                "imageHeight": 1920
+              }
+            ]
+          },
+          "music": {
+            "title": "trending audio",
+            "authorName": "some_artist",
+            "playUrl": {
+              "urlList": [
+                "https://sf16-ies-music.tiktokcdn.com/obj/bg_audio.mp3?expire=9999999999&sig=ddd"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
