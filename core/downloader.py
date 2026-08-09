@@ -241,11 +241,11 @@ def vtt_or_srt_to_styled_ass(sub_content: str, play_res_x: int = 1920, play_res_
     """
     Converts VTT or SRT subtitle text content to a modern, beautifully styled ASS subtitle.
     Styles:
-    - Font: Arial (Sans-serif font / Không chân)
+    - Font: Futura, Montserrat, Segoe UI, Arial (Geometric Sans-serif / Futura Việt Hóa)
     - Alignment: 2 (Bottom Center - Căn giữa)
-    - Position: Raised 65px from bottom (MarginV 65)
-    - Box: Semi-transparent dark background box (BorderStyle 3, BackColour &H90000000)
-    - Color: Crisp white text (&H00FFFFFF)
+    - Position: Raised 75px from bottom (MarginV 75)
+    - Box: Semi-transparent dark background box (BorderStyle 3, BackColour &H80000000)
+    - Color: Crisp white text (&H00FFFFFF), Bold (-1)
     """
     ass_header = f"""[Script Info]
 ScriptType: v4.00+
@@ -255,7 +255,7 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial,44,&H00FFFFFF,&H000000FF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,3,2,0,2,30,30,65,1
+Style: Default,Futura,46,&H00FFFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,3,3,0,2,30,30,75,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -306,7 +306,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = False):
     """
     Finds downloaded VTT/SRT subtitles in output_dir, converts them to modern styled ASS files
-    (sans-serif font, dark background box, centered, raised bottom margin), and optionally embeds
+    (Futura font, dark background box, centered, raised bottom margin), and optionally embeds
     them into video files via FFmpeg.
     """
     tools = get_ffmpeg_tools()
@@ -326,7 +326,7 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
             with open(ass_target, "w", encoding="utf-8") as f:
                 f.write(ass_content)
 
-            logger.info(f"Converted subtitle {sub_file.name} to modern styled ASS at {ass_target.name}")
+            logger.info(f"Converted subtitle {sub_file.name} to modern styled ASS (Futura) at {ass_target.name}")
 
             if embed_sub and tools.ffmpeg_bin:
                 video_files = list(out_path.glob("*.mp4")) + list(out_path.glob("*.mkv"))
@@ -334,37 +334,23 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
                     if "_subbed" in vid.name:
                         continue
                     temp_subbed = vid.with_name(f"{vid.stem}_subbed{vid.suffix}")
-                    ass_path_str = str(ass_target).replace("\\", "/").replace(":", "\\:")
-                    if vid.suffix.lower() == ".mkv":
-                        cmd = [
-                            tools.ffmpeg_bin, "-y",
-                            "-i", str(vid),
-                            "-i", str(ass_target),
-                            "-map", "0:v",
-                            "-map", "0:a?",
-                            "-map", "1:0",
-                            "-c:v", "copy",
-                            "-c:a", "copy",
-                            "-c:s", "ass",
-                            "-disposition:s:0", "default",
-                            str(temp_subbed)
-                        ]
-                    else:  # MP4 container -- burn-in ASS for 100% player box compatibility
-                        cmd = [
-                            tools.ffmpeg_bin, "-y",
-                            "-i", str(vid),
-                            "-vf", f"subtitles='{ass_path_str}'",
-                            "-c:v", "libx264",
-                            "-preset", "ultrafast",
-                            "-crf", "18",
-                            "-c:a", "copy",
-                            str(temp_subbed)
-                        ]
+                    ass_path_str = str(ass_target.resolve()).replace("\\", "/").replace(":", "\\:")
+                    # Burn-in ASS subtitles directly into video stream for 100% guaranteed display across all video players
+                    cmd = [
+                        tools.ffmpeg_bin, "-y",
+                        "-i", str(vid),
+                        "-vf", f"subtitles='{ass_path_str}'",
+                        "-c:v", "libx264",
+                        "-preset", "ultrafast",
+                        "-crf", "18",
+                        "-c:a", "copy",
+                        str(temp_subbed)
+                    ]
                     res = subprocess.run(cmd, capture_output=True, timeout=180)
                     if res.returncode == 0 and temp_subbed.exists() and temp_subbed.stat().st_size > 1000:
                         vid.unlink(missing_ok=True)
                         shutil.move(str(temp_subbed), str(vid))
-                        logger.info(f"Successfully embedded styled ASS subtitle into {vid.name}")
+                        logger.info(f"Successfully burned in styled ASS subtitle into {vid.name}")
                     else:
                         if temp_subbed.exists():
                             temp_subbed.unlink(missing_ok=True)
