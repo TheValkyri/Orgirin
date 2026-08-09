@@ -665,7 +665,7 @@ def _verify_downloaded_file(
         str(file_path),
     ]
     try:
-        sub = subprocess.run(cmd, capture_output=True, text=True, timeout=15)
+        sub = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=15)
     except subprocess.TimeoutExpired:
         raise VerificationMismatchError(f"ffprobe timed out khi xác minh {file_path.name}.")
     except FileNotFoundError:
@@ -678,9 +678,12 @@ def _verify_downloaded_file(
             f"ffprobe trả về mã lỗi {sub.returncode} cho {file_path.name}: {sub.stderr.strip()[:200]}"
         )
 
+    if not sub.stdout or not sub.stdout.strip():
+        raise VerificationMismatchError(f"ffprobe không trả về dữ liệu cho {file_path.name}.")
+
     try:
         info = json.loads(sub.stdout)
-    except (json.JSONDecodeError, ValueError):
+    except (json.JSONDecodeError, ValueError, TypeError):
         raise VerificationMismatchError(f"ffprobe trả về dữ liệu JSON không hợp lệ cho {file_path.name}.")
 
     streams = info.get("streams", [])
@@ -781,7 +784,7 @@ def _trim_file_if_needed(target_path: Path, start_sec: Optional[int], end_sec: O
                     "-of", "default=noprint_wrappers=1:nokey=1",
                     str(target_path),
                 ]
-                sub_p = subprocess.run(probe_cmd, capture_output=True, text=True, timeout=5)
+                sub_p = subprocess.run(probe_cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=5)
                 c_name = sub_p.stdout.strip().lower()
                 if "av1" in c_name:
                     vcodec = "libsvtav1"
@@ -800,7 +803,7 @@ def _trim_file_if_needed(target_path: Path, start_sec: Optional[int], end_sec: O
             str(temp_trimmed),
         ])
 
-    sub = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    sub = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=120)
     if sub.returncode != 0:
         if temp_trimmed.exists():
             temp_trimmed.unlink()
@@ -939,7 +942,7 @@ def download_tiktok_media(
                             "-q:v", "2",
                             str(target)
                         ]
-                        sub = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+                        sub = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=10)
                         if target.exists() and target.stat().st_size > 1000:
                             extracted = True
                     except Exception as e:
@@ -1069,7 +1072,7 @@ def download_tiktok_media(
                         str(temp_audio_input),
                     ]
                     probe_sub = subprocess.run(
-                        probe_cmd, capture_output=True, text=True, timeout=15
+                        probe_cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=15
                     )
                     codec = probe_sub.stdout.strip().lower()
                     if codec in ("mp3", "mp3float"):
@@ -1100,7 +1103,7 @@ def download_tiktok_media(
                 str(target),
             ]
 
-        res_sub = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        res_sub = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=300)
         if temp_audio_input.exists():
             temp_audio_input.unlink()
 
@@ -1227,7 +1230,7 @@ def download_tiktok_media(
                             "-c", "copy", "-c:s", "mov_text",
                             str(embed_target)
                         ]
-                        sub_res = subprocess.run(embed_cmd, capture_output=True, timeout=60)
+                        sub_res = subprocess.run(embed_cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=60)
                         if sub_res.returncode == 0 and embed_target.exists() and embed_target.stat().st_size > 1000:
                             target.unlink(missing_ok=True)
                             shutil.move(str(embed_target), str(target))
