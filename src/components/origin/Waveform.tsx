@@ -13,7 +13,6 @@ export function Waveform({
   const frame = useRef(0);
 
   useEffect(() => {
-    if (!active) return;
     const reduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -25,13 +24,15 @@ export function Waveform({
       const el = ref.current;
       if (el) {
         const children = el.children;
+        // Fast energetic motion while active, smooth gentle wave when idle/done
+        const speed = active ? 0.11 : 0.035;
         for (let i = 0; i < children.length; i += 1) {
-          const t = frame.current / 9 + i / 3;
+          const t = frame.current * speed + i * 0.35;
           const h =
-            22 +
-            Math.abs(Math.sin(t) * 42) +
-            Math.abs(Math.sin(t * 0.37 + i) * 30);
-          (children[i] as HTMLElement).style.height = `${Math.min(100, h)}%`;
+            20 +
+            Math.abs(Math.sin(t) * 45) +
+            Math.abs(Math.sin(t * 0.37 + i) * 35);
+          (children[i] as HTMLElement).style.height = `${Math.min(100, Math.max(15, h))}%`;
         }
       }
       raf = requestAnimationFrame(tick);
@@ -52,8 +53,7 @@ export function Waveform({
             key={i}
             className="w-full rounded-full bg-signal"
             style={{
-              height: active ? undefined : `${20 + ((i * 7) % 60)}%`,
-              opacity: active ? 1 : 0.35,
+              opacity: active || percent > 0 ? 1 : 0.4,
             }}
           />
         ))}

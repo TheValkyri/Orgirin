@@ -889,12 +889,26 @@ def download_tiktok_media(
                     except Exception:
                         pass
                 if r.status_code in (200, 206) and int(r.headers.get("content-length", 0)) > 500:
+                    total_size = int(r.headers.get("content-length", 0))
+                    downloaded = 0
+                    start_t = time.time()
                     with open(temp_audio_input, "wb") as f:
                         for chunk in r.iter_content(chunk_size=65536):
                             if is_cancelled_check and is_cancelled_check():
                                 raise DownloadCancelledException("Thao tác tải TikTok bị hủy.")
                             if chunk:
                                 f.write(chunk)
+                                downloaded += len(chunk)
+                                if progress_callback and total_size > 0:
+                                    el_t = time.time() - start_t
+                                    spd = (downloaded / 1024) / el_t if el_t > 0 else 0
+                                    pct = min(95.0, round((downloaded / total_size) * 100, 1))
+                                    progress_callback({
+                                        "status": "DOWNLOADING",
+                                        "percent": pct,
+                                        "speed_kbs": round(spd, 1),
+                                        "eta_sec": int((total_size - downloaded) / (spd * 1024)) if spd > 0 else 0
+                                    })
                     if temp_audio_input.exists() and temp_audio_input.stat().st_size > 500:
                         downloaded_content = True
                         break
