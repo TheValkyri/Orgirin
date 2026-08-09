@@ -239,6 +239,133 @@ def _apply_time_range_and_subs(
             ydl_opts["embedsubtitles"] = True
 
 
+def vtt_or_srt_to_styled_ass(sub_content: str, play_res_x: int = 1920, play_res_y: int = 1080) -> str:
+    """
+    Converts VTT or SRT subtitle text content to a modern, beautifully styled ASS subtitle.
+    Styles:
+    - Font: Arial (Sans-serif font / Không chân)
+    - Alignment: 2 (Bottom Center - Căn giữa)
+    - Position: Raised 65px from bottom (MarginV 65)
+    - Box: Semi-transparent dark background box (BorderStyle 3, BackColour &H90000000)
+    - Color: Crisp white text (&H00FFFFFF)
+    """
+    ass_header = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: {play_res_x}
+PlayResY: {play_res_y}
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,44,&H00FFFFFF,&H000000FF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,3,2,0,2,30,30,65,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+    events = []
+    blocks = re.split(r'\n\s*\n', sub_content.strip())
+    for block in blocks:
+        lines = [l.strip() for l in block.split('\n') if l.strip()]
+        if not lines:
+            continue
+        time_line_idx = -1
+        for idx, line in enumerate(lines):
+            if '-->' in line:
+                time_line_idx = idx
+                break
+        if time_line_idx == -1:
+            continue
+        
+        time_line = lines[time_line_idx]
+        text_lines = lines[time_line_idx + 1:]
+        text = " \\N ".join(text_lines)
+        text = re.sub(r'<[^>]+>', '', text)
+        text = text.strip()
+        if not text:
+            continue
+        
+        m = re.search(r'(\d+:)?(\d+):(\d+)[.,](\d+)\s*-->\s*(\d+:)?(\d+):(\d+)[.,](\d+)', time_line)
+        if not m:
+            continue
+        
+        sh = int(m.group(1).rstrip(':')) if m.group(1) else 0
+        sm = int(m.group(2))
+        ss = int(m.group(3))
+        sms = int(m.group(4)[:2].ljust(2, '0'))
+        
+        eh = int(m.group(5).rstrip(':')) if m.group(5) else 0
+        em = int(m.group(6))
+        es = int(m.group(7))
+        ems = int(m.group(8)[:2].ljust(2, '0'))
+        
+        start_ass = f"{sh}:{sm:02d}:{ss:02d}.{sms:02d}"
+        end_ass = f"{eh}:{em:02d}:{es:02d}.{ems:02d}"
+        events.append(f"Dialogue: 0,{start_ass},{end_ass},Default,,0,0,0,,{text}")
+    
+    return ass_header + "\n".join(events) + "\n"
+
+
+def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = False):
+    """
+    Finds downloaded VTT/SRT subtitles in output_dir, converts them to modern styled ASS files
+    (sans-serif font, dark background box, centered, raised bottom margin), and optionally embeds
+    them into video files via FFmpeg.
+    """
+    tools = get_ffmpeg_tools()
+    out_path = Path(output_dir)
+    sub_files = list(out_path.glob("*.vtt")) + list(out_path.glob("*.srt"))
+
+    for sub_file in sub_files:
+        try:
+            with open(sub_file, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+
+            if not content.strip():
+                continue
+
+            ass_content = vtt_or_srt_to_styled_ass(content)
+            ass_target = sub_file.with_suffix(".ass")
+            with open(ass_target, "w", encoding="utf-8") as f:
+                f.write(ass_content)
+
+            logger.info(f"Converted subtitle {sub_file.name} to modern styled ASS at {ass_target.name}")
+
+            if embed_sub and tools.ffmpeg_bin:
+                video_files = list(out_path.glob("*.mp4")) + list(out_path.glob("*.mkv"))
+                for vid in video_files:
+                    if "_subbed" in vid.name:
+                        continue
+                    temp_subbed = vid.with_name(f"{vid.stem}_subbed{vid.suffix}")
+                    if vid.suffix.lower() == ".mkv":
+                        cmd = [
+                            tools.ffmpeg_bin, "-y",
+                            "-i", str(vid),
+                            "-i", str(ass_target),
+                            "-c", "copy",
+                            "-c:s", "ass",
+                            str(temp_subbed)
+                        ]
+                    else:  # MP4 container
+                        cmd = [
+                            tools.ffmpeg_bin, "-y",
+                            "-i", str(vid),
+                            "-i", str(ass_target),
+                            "-c", "copy",
+                            "-c:s", "mov_text",
+                            str(temp_subbed)
+                        ]
+                    res = subprocess.run(cmd, capture_output=True, timeout=120)
+                    if res.returncode == 0 and temp_subbed.exists() and temp_subbed.stat().st_size > 1000:
+                        vid.unlink(missing_ok=True)
+                        shutil.move(str(temp_subbed), str(vid))
+                        logger.info(f"Successfully embedded styled subtitle into {vid.name}")
+                    else:
+                        if temp_subbed.exists():
+                            temp_subbed.unlink(missing_ok=True)
+        except Exception as exc:
+            logger.warning(f"Error styling/embedding subtitle {sub_file.name}: {exc}")
+
+
 def download_video(
     url: str,
     height: int,
@@ -309,6 +436,7 @@ def download_video(
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
+        _postprocess_and_embed_styled_subtitles(output_dir, embed_sub=embed_sub)
         return output_dir
     except DownloadCancelledException:
         raise
@@ -1096,6 +1224,8 @@ def download_tiktok_media(
                             logger.info(f"Successfully embedded subtitle into {target.name}")
         except Exception as exc:
             logger.warning(f"TikTok subtitle download/embedding failed: {exc}")
+
+    _postprocess_and_embed_styled_subtitles(output_dir, embed_sub=embed_sub)
 
     if progress_callback:
         progress_callback({"status": "DONE", "percent": 100.0, "quality_tag": "Tải Thành Công"})
