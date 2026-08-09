@@ -348,7 +348,7 @@ def _postprocess_and_embed_styled_subtitles(output_dir: str, embed_sub: bool = F
                         "-sn",
                         temp_subbed.name
                     ]
-                    res = subprocess.run(cmd, capture_output=True, timeout=180, cwd=str(out_path))
+                    res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="ignore", timeout=180, cwd=str(out_path))
                     if res.returncode == 0 and temp_subbed.exists() and temp_subbed.stat().st_size > 1000:
                         vid.unlink(missing_ok=True)
                         shutil.move(str(temp_subbed), str(vid))
@@ -1020,10 +1020,11 @@ def download_tiktok_media(
                         from tiktok_extractor.webpage_fetch import fetch_wrapper_json
                         from tiktok_extractor.parser import parse_page_json
                         fresh_wrapper = fetch_wrapper_json(url)
-                        fresh_res = parse_page_json(fresh_wrapper)
-                        fresh_gear = fresh_res.best_clean_gear() or fresh_res.best_available_gear()
-                        if fresh_gear and fresh_gear.url:
-                            r = requests.get(fresh_gear.url, headers=headers, stream=True, timeout=30)
+                        if fresh_wrapper:
+                            fresh_res = parse_page_json(fresh_wrapper)
+                            fresh_gear = fresh_res.best_clean_gear() or fresh_res.best_available_gear()
+                            if fresh_gear and fresh_gear.url:
+                                r = requests.get(fresh_gear.url, headers=headers, stream=True, timeout=30)
                     except Exception:
                         pass
                 if r.status_code in (200, 206) and int(r.headers.get("content-length", 0)) > 500:
@@ -1155,11 +1156,12 @@ def download_tiktok_media(
                     from tiktok_extractor.webpage_fetch import fetch_wrapper_json
                     from tiktok_extractor.parser import parse_page_json
                     fresh_wrapper = fetch_wrapper_json(url)
-                    fresh_res = parse_page_json(fresh_wrapper)
-                    fresh_gear = fresh_res.best_clean_gear() or fresh_res.best_available_gear()
-                    if fresh_gear and fresh_gear.url and fresh_gear.url != stream_url:
-                        stream_url = fresh_gear.url
-                        r = requests.get(stream_url, headers={"User-Agent": "Mozilla/5.0"}, stream=True, timeout=30)
+                    if fresh_wrapper:
+                        fresh_res = parse_page_json(fresh_wrapper)
+                        fresh_gear = fresh_res.best_clean_gear() or fresh_res.best_available_gear()
+                        if fresh_gear and fresh_gear.url and fresh_gear.url != stream_url:
+                            stream_url = fresh_gear.url
+                            r = requests.get(stream_url, headers=headers, stream=True, timeout=30)
                 except Exception as exc:
                     logger.warning(f"TikWM stream refresh attempt failed: {exc}")
             r.raise_for_status()

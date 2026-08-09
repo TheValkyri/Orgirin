@@ -236,7 +236,7 @@ def _parse_cover(video: dict) -> Optional[str]:
     return None
 
 
-def parse_page_json(wrapper: dict) -> TikTokMediaResult:
+def parse_page_json(wrapper: Union[str, dict, None]) -> TikTokMediaResult:
     """Top-level entry point. `wrapper` is the already json.loads()'d
     contents of the __UNIVERSAL_DATA_FOR_REHYDRATION__ script tag.
 
@@ -247,6 +247,18 @@ def parse_page_json(wrapper: dict) -> TikTokMediaResult:
     parse-time concern, since a result with only watermarked gears is still
     a successfully *parsed* result.
     """
+    if wrapper is None:
+        raise SchemaDriftError("Cannot parse None payload -- TikTok wrapper data is missing or empty.")
+    if isinstance(wrapper, str):
+        if not wrapper.strip():
+            raise SchemaDriftError("Cannot parse empty JSON string.")
+        try:
+            wrapper = json.loads(wrapper)
+        except Exception as err:
+            raise SchemaDriftError(f"Failed to decode JSON string: {err}")
+    if not isinstance(wrapper, dict):
+        raise SchemaDriftError(f"Unexpected wrapper type {type(wrapper).__name__}, expected dict.")
+
     item = _find_item_struct(wrapper)
 
     video = item.get("video") if isinstance(item, dict) else {}
