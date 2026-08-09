@@ -50,9 +50,9 @@ export function Waveform({
         aria-hidden
       >
         {Array.from({ length: bars }, (_, i) => {
-          // Balanced, professional static audio waveform shape for completed tasks
-          const distFromCenter = Math.abs(i - (bars - 1) / 2) / ((bars - 1) / 2);
-          const staticHeight = Math.round(25 + (1 - distFromCenter) * 55 + Math.abs(Math.sin(i * 0.85)) * 20);
+          // Organic audio waveform shape matching the original design (peaks & valleys)
+          const baseWave = 20 + Math.abs(Math.sin(i * 0.45) * 45) + Math.abs(Math.sin(i * 0.9 + 1.2) * 30);
+          const staticHeight = Math.min(95, Math.max(18, Math.round(baseWave)));
 
           return (
             <span
