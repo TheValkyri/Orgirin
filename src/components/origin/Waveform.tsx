@@ -13,9 +13,7 @@ export function Waveform({
   const frame = useRef(0);
 
   useEffect(() => {
-    // Zero CPU/GPU animation overhead when task is not active!
     if (!active) return;
-
     const reduced =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -50,16 +48,21 @@ export function Waveform({
         aria-hidden
       >
         {Array.from({ length: bars }, (_, i) => {
-          // Organic audio waveform shape matching the original design (peaks & valleys)
-          const baseWave = 20 + Math.abs(Math.sin(i * 0.45) * 45) + Math.abs(Math.sin(i * 0.9 + 1.2) * 30);
-          const staticHeight = Math.min(95, Math.max(18, Math.round(baseWave)));
-
+          const staticH = Math.min(
+            100,
+            Math.max(
+              15,
+              20 +
+                Math.abs(Math.sin(i * 0.35) * 45) +
+                Math.abs(Math.sin(i * 0.77) * 35),
+            ),
+          );
           return (
             <span
               key={i}
-              className="w-full rounded-full bg-signal transition-[height] duration-300"
+              className="w-full rounded-full bg-signal"
               style={{
-                height: active ? undefined : `${staticHeight}%`,
+                height: active ? undefined : `${staticH}%`,
                 opacity: active || percent > 0 ? 1 : 0.4,
               }}
             />
