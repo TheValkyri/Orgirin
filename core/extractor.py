@@ -182,28 +182,33 @@ def _extract_tiktok_info(url: str) -> dict:
         
         formats = []
         if res.video_gears:
-            for gear in res.video_gears:
-                # A-11: Portrait resolution normalization (shorter edge)
+            # Filter out watermarked gears completely for TikTok
+            clean_gears = [g for g in res.video_gears if g.watermark_status != "confirmed_watermarked"]
+            
+            # Deduplicate by height (shorter edge for portrait), keeping best codec (HEVC > H.264)
+            best_by_height = {}
+            for gear in clean_gears:
                 w_val = gear.width or 0
                 h_val_raw = gear.height or 0
-                if w_val > 0 and h_val_raw > 0:
-                    h_val = min(w_val, h_val_raw)
-                else:
-                    h_val = h_val_raw
-                
-                if gear.watermark_status == "confirmed_clean":
-                    wm_label = "(Nguồn báo không WM)"
-                elif gear.watermark_status == "unknown":
-                    wm_label = "(Chưa xác minh WM)"
-                else:
-                    wm_label = "(Có Watermark)"
+                h_val = min(w_val, h_val_raw) if (w_val > 0 and h_val_raw > 0) else h_val_raw
+                if h_val <= 0:
+                    continue
 
-                lbl = f"{h_val}p HEVC {wm_label}" if "h265" in gear.codec else f"{h_val}p H.264 {wm_label}"
-                
+                is_hevc = "h265" in (gear.codec or "").lower() or "hvc1" in (gear.codec or "").lower()
+                if h_val not in best_by_height:
+                    best_by_height[h_val] = (gear, is_hevc)
+                elif is_hevc and not best_by_height[h_val][1]:
+                    best_by_height[h_val] = (gear, is_hevc)
+
+            for h_val in sorted(best_by_height.keys(), reverse=True):
+                gear, is_hevc = best_by_height[h_val]
+                codec_name = "HEVC" if is_hevc else "H.264"
+                lbl = f"{h_val}p ({codec_name})"
+
                 if gear.bitrate and gear.bitrate > 0:
                     effective_bitrate = gear.bitrate
                 else:
-                    effective_bitrate = 1500000 if "h265" in gear.codec else 3000000
+                    effective_bitrate = 1500000 if is_hevc else 3000000
 
                 dur_sec = res.duration_sec if (res.duration_sec and res.duration_sec > 0) else 0
                 bytes_est = (effective_bitrate / 8) * dur_sec if dur_sec > 0 else 0

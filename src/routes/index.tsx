@@ -610,13 +610,13 @@ function OriginApp() {
     ? ([
         {
           id: "best" as const,
-          label: "Video Tốt Nhất",
-          sub: "Chọn stream TikTok khả dụng từ metadata nguồn",
+          label: "Video TikTok",
+          sub: "Bản HD sạch logo",
         },
         {
           id: "audio_native" as const,
           label: "Audio Gốc",
-          sub: "Tải Nhạc Nền TikTok",
+          sub: "Nhạc nền TikTok",
         },
       ] as const)
     : ([
@@ -849,12 +849,12 @@ function OriginApp() {
                     <div className="flex items-center justify-between mb-2.5">
                       <h3 className="text-sm font-semibold text-foreground">
                         {isTikTok
-                          ? "Chọn độ phân giải TikTok"
+                          ? "Độ phân giải TikTok"
                           : "Chọn độ phân giải"}
                       </h3>
                       <span className="text-[11px] text-muted-foreground">
                         {isTikTok
-                          ? "Chọn stream TikTok khả dụng từ metadata nguồn."
+                          ? "Tự động lọc luồng không watermark."
                           : mode === "best"
                             ? "Tự động chọn codec tốt nhất (AV1/VP9)"
                             : "Ép chọn H.264 tương thích mọi thiết bị"}

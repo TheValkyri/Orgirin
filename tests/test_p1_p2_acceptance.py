@@ -68,7 +68,7 @@ class TestP1P2Acceptance(unittest.TestCase):
             fmt = info["formats"][0]
             # Height should be normalized to shorter edge (1080), label should be 1080p
             self.assertEqual(fmt["height"], 1080)
-            self.assertIn("1080p H.264", fmt["resolutionLabel"])
+            self.assertIn("1080p (H.264)", fmt["resolutionLabel"])
             self.assertEqual(info["capabilities"]["supportsSubtitles"], False)
             self.assertEqual(info["capabilities"]["supportsMp3"], True)
 

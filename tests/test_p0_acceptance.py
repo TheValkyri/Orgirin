@@ -145,9 +145,9 @@ class TestP0TikTokTruthfulness(unittest.TestCase):
         with patch("tiktok_extractor.orchestrator.ExtractorOrchestrator.extract", return_value=res):
             info = extractor.extract_video_info("https://www.tiktok.com/@testuser/video/123")
             labels = [f["resolutionLabel"] for f in info["formats"]]
-            self.assertIn("1080p H.264 (Nguồn báo không WM)", labels[0])
-            self.assertIn("720p H.264 (Chưa xác minh WM)", labels[1])
-            self.assertIn("360p H.264 (Có Watermark)", labels[2])
+            self.assertEqual(len(labels), 2)  # watermarked gear (360p) is filtered out
+            self.assertIn("1080p (H.264)", labels[0])
+            self.assertIn("720p (H.264)", labels[1])
             for fmt in info["formats"]:
                 self.assertEqual(fmt["fps"], 0)
                 self.assertEqual(fmt["acodec"], "unknown")
